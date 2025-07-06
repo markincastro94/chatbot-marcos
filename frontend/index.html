@@ -9,7 +9,7 @@
     body {
       font-family: 'Arial', sans-serif;
       background-color: #1e1e1e; /* Fundo geral mais escuro */
-      color: #f0f0f0;           /* Cor de texto padrão mais clara */
+      color: #f0f0f0;            /* Cor de texto padrão mais clara */
       height: 100vh;
       margin: 0;
       padding: 0;
@@ -26,39 +26,14 @@
       position: relative;
     }
 
-    /* Substitui a imagem pelo texto */
-.left-text {
-  position: absolute;
-  top: 50%;
-  left: 60%;
-  transform: translate(-50%, -50%);
-  text-align: center;
-
-  /* Flex para alinhar verticalmente */
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-/* "VIVA" em laranja, caixa alta, maior */
-.viva {
-  font-family: 'comic sans', sans-serif; /* fonte */
-  color: orange;
-  font-size: 85px;
-  font-weight: bold;
-  text-transform: uppercase; /* Mantém tudo em maiúsculas */
-  margin-bottom: -20px;        /* Espaço entre "VIVA" e "eventos" */
-}
-
-/* "eventos" em cor clara, menor, sem negrito e minúsculo */
-.eventos {
-  font-family: 'Helvetica', sans-serif; /* fonte */
-  color: rgb(236, 233, 228);
-  font-size: 30px;
-  font-weight: normal;
-  text-transform: lowercase; /* Não converte o texto, segue como estiver no HTML */
-  /* Se quiser forçar sempre minúsculo, use: text-transform: lowercase; */
-}
+    /* Estilo para a imagem do logo */
+    .logo-image {
+      max-width: 100%; /* Garante que a imagem não ultrapasse a largura do contêiner pai */
+      height: auto; 
+      display: block; /* Remove o espaço extra abaixo da imagem */
+      /* Você pode ajustar o tamanho se 100% for muito grande. Por exemplo: */
+      /* width: 150px; */ 
+    }
 
     .chat-container {
       width: 80%;
@@ -131,7 +106,7 @@
       display: flex;
       padding: 15px;
       background-color: #2b2b2b; /* Fundo da barra de entrada */
-      border-top: 1px solid #444; 
+      border-top: 1px solid #444;  
     }
 
     #user-input {
@@ -142,11 +117,11 @@
       margin-right: 10px;
       font-size: 16px;
       background-color: #3b3b3b;  /* Fundo do input */
-      color: #f0f0f0;            /* Texto claro */
+      color: #f0f0f0;             /* Texto claro */
     }
 
     #user-input::placeholder {
-      color: #cccccc;            /* Placeholder mais claro */
+      color: #cccccc;             /* Placeholder mais claro */
     }
 
     #send-btn {
@@ -193,11 +168,9 @@
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 </head>
 <body>
-  <!-- Container substituindo o logo pela nova estrutura de texto -->
   <div class="logo-container">
     <div class="left-text">
-      <div class="viva">VIVA</div>
-      <div class="eventos">EVENTOS</div>
+      <img src="static/marcoscastroimagem.png" alt="Logo Marcos Castro" class="logo-image">
     </div>
   </div>
 
@@ -261,6 +234,7 @@
           document.getElementById('messages').scrollTop = document.getElementById('messages').scrollHeight;
         }, 1000);
 
+        // ATENÇÃO: SUBSTITUA ESTA URL PELA SUA URL DO CLOUD RUN
         fetch('https://vivagpt-backend-service-480232989535.us-central1.run.app/ask', {
           method: 'POST',
           headers: {
