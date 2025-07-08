@@ -5,140 +5,94 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Chatbot Marcos Castro</title>
   <style>
-    /* ======= Geral ======= */
     body {
       font-family: 'Arial', sans-serif;
-      background-color: #1e1e1e; /* Fundo geral mais escuro */
-      color: #f0f0f0;            /* Cor de texto padrão mais clara */
-      height: 100vh;
+      background-color: #1e1e1e;
+      color: #f0f0f0;
       margin: 0;
       padding: 0;
-      display: flex;
-    }
-
-    .logo-container {
-      width: 20%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background-color: #1e1e1e; /* Mesmo tom de fundo para integrar ao tema escuro */
       height: 100vh;
-      position: relative;
-    }
-
-    /* Estilo para a imagem do logo */
-    .logo-image {
-      max-width: 100%; /* Garante que a imagem não ultrapasse a largura do contêiner pai */
-      height: auto; 
-      display: block; /* Remove o espaço extra abaixo da imagem */
-      /* Você pode ajustar o tamanho se 100% for muito grande. Por exemplo: */
-      /* width: 150px; */ 
+      display: flex;
+      flex-direction: column;
     }
 
     .chat-container {
-      width: 80%;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      padding: 20px;
-      background-color: #1e1e1e; /* Fundo do container principal */
-    }
-
-    /* ======= Container do Chat ======= */
-    #chat-container {
-      width: 100%;
-      max-width: 1000px;
-      background-color: #2b2b2b; /* Caixa do chat um pouco mais clara que o fundo */
-      color: #f0f0f0;
-      box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
-      border-radius: 10px;
+      flex-grow: 1;
       display: flex;
       flex-direction: column;
-      height: 90vh;
+      align-items: center;
+      justify-content: center;
+      padding: 10px;
     }
 
-    /* ======= Área de Mensagens ======= */
+    #chat-container {
+      width: 100%;
+      max-width: 100%;
+      height: 100vh;
+      background-color: #2b2b2b;
+      display: flex;
+      flex-direction: column;
+      border-radius: 10px;
+    }
+
     #messages {
       flex-grow: 1;
-      padding: 20px;
+      padding: 10px;
       overflow-y: auto;
-      background-color: #1e1e1e; /* Fundo para a área de mensagens */
+      background-color: #1e1e1e;
       display: flex;
       flex-direction: column;
     }
 
     .message {
-      margin-bottom: 15px;
-      padding: 10px 15px;
+      margin-bottom: 10px;
+      padding: 10px;
       border-radius: 8px;
       word-wrap: break-word;
-      font-size: 16px;
-      line-height: 1.5;
-      max-width: 80%;
-      position: relative;
+      font-size: 14px;
+      max-width: 85%;
     }
 
     .user-message {
-      background-color: #3b3b3b; /* Mensagens do usuário */
+      background-color: #3b3b3b;
       align-self: flex-end;
       text-align: right;
-      color: #f0f0f0;
     }
 
     .gpt-message {
-      background-color: #2f2f2f; /* Mensagens do ChatGPT */
+      background-color: #2f2f2f;
       align-self: flex-start;
       text-align: left;
-      color: #f0f0f0;
-      position: relative;
     }
 
-    .time-stamp {
-      font-size: 12px;
-      color: #aaaaaa; /* Tom de cinza claro para o horário */
-      margin-top: 5px;
-      text-align: right;
-      display: block;
-    }
-
-    /* ======= Área de Entrada de Texto ======= */
     #input-area {
       display: flex;
-      padding: 15px;
-      background-color: #2b2b2b; /* Fundo da barra de entrada */
-      border-top: 1px solid #444;  
+      padding: 10px;
+      background-color: #2b2b2b;
+      border-top: 1px solid #444;
     }
 
     #user-input {
       flex-grow: 1;
-      padding: 10px;
-      border: 1px solid #555;     /* Borda para destacar no tema escuro */
+      padding: 8px;
+      border: 1px solid #555;
       border-radius: 5px;
       margin-right: 10px;
-      font-size: 16px;
-      background-color: #3b3b3b;  /* Fundo do input */
-      color: #f0f0f0;             /* Texto claro */
-    }
-
-    #user-input::placeholder {
-      color: #cccccc;             /* Placeholder mais claro */
+      font-size: 14px;
+      background-color: #3b3b3b;
+      color: #f0f0f0;
     }
 
     #send-btn {
-      padding: 10px 20px;
+      padding: 8px 16px;
       background-color: #28a745;
       color: white;
       border: none;
       border-radius: 5px;
       cursor: pointer;
-      font-size: 16px;
+      font-size: 14px;
     }
 
-    #send-btn:hover {
-      background-color: #218838;
-    }
-
-    /* ======= Botão de Copiar ======= */
     .copy-btn {
       margin-top: 5px;
       padding: 5px 10px;
@@ -149,31 +103,27 @@
       border: none;
       border-radius: 4px;
     }
-    
-    .copy-btn:hover {
-      background-color: #0056b3;
-    }
-    
-    /* ======= Blocos de Código ======= */
+
     pre {
-      background-color: #272822; /* Mantido o tom clássico de "Monokai" */
+      background-color: #272822;
       color: #f8f8f2;
       padding: 10px;
       border-radius: 5px;
       overflow-x: auto;
-      position: relative; /* para posicionar o botão dentro do bloco */
-      margin-bottom: 0;   /* remover espaço extra em relação à mensagem */
+      position: relative;
+    }
+
+    .time-stamp {
+      font-size: 10px;
+      color: #aaaaaa;
+      margin-top: 5px;
+      text-align: right;
+      display: block;
     }
   </style>
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 </head>
 <body>
-  <div class="logo-container">
-    <div class="left-text">
-      <img src="frontend/static/marcoscastroimagem.png" alt="Logo Marcos Castro" class="logo-image">
-    </div>
-  </div>
-
   <div class="chat-container">
     <div id="chat-container">
       <div id="messages"></div>
@@ -186,161 +136,72 @@
 
   <script>
     window.onload = function() {
-      console.log("Página carregada.");
       const initialMessage = "Olá, em que posso te ajudar? 😊";
-      const currentTime = new Date();
-      const hours = String(currentTime.getHours()).padStart(2, '0');
-      const minutes = String(currentTime.getMinutes()).padStart(2, '0');
-      const timeString = `${hours}:${minutes}`;
-
-      addMessage(initialMessage, 'gpt-message', false, timeString);
+      const now = new Date();
+      const time = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
+      addMessage(initialMessage, 'gpt-message', false, time);
     };
-
-    const sendBtn = document.getElementById('send-btn');
-    const userInputEl = document.getElementById('user-input');
-
-    sendBtn.addEventListener('click', function() {
-      console.log("Botão de enviar clicado.");
-      sendMessage();
-    });
-
-    userInputEl.addEventListener('keypress', function(e) {
-      if (e.key === 'Enter') {
-        console.log("Enter pressionado.");
-        sendMessage();
-      }
-    });
-
-    function sendMessage() {
-      console.log("sendMessage() chamada.");
-      const userInput = userInputEl.value;
-      if (userInput.trim() !== '') {
-        const currentTime = new Date();
-        const hours = String(currentTime.getHours()).padStart(2, '0');
-        const minutes = String(currentTime.getMinutes()).padStart(2, '0');
-        const timeString = `${hours}:${minutes}`;
-
-        addMessage(userInput, 'user-message', false, timeString);
-        userInputEl.value = '';
-        setLoading(true);
-
-        let typingMessageDiv;
-
-        setTimeout(() => {
-          typingMessageDiv = document.createElement('div');
-          typingMessageDiv.className = 'message gpt-message';
-          typingMessageDiv.textContent = "Digitando...";
-          document.getElementById('messages').appendChild(typingMessageDiv);
-          document.getElementById('messages').scrollTop = document.getElementById('messages').scrollHeight;
-        }, 1000);
-
-        // ATENÇÃO: SUBSTITUA ESTA URL PELA SUA URL DO CLOUD RUN
-        fetch('https://vivagpt-backend-service-480232989535.us-central1.run.app/ask', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ pergunta: userInput }),
-        })
-        .then(response => {
-          if (!response.ok) {
-            throw new Error('Erro na resposta do servidor');
-          }
-          return response.json();
-        })
-        .then(data => {
-          console.log("Resposta recebida:", data);
-          if (typingMessageDiv) {
-            document.getElementById('messages').removeChild(typingMessageDiv);
-          }
-          
-          // Se o servidor retornar "codigo" e "explicacao", exibe as mensagens separadas
-          if (data.codigo && data.explicacao) {
-            const codigoHtml = `<pre><code>${data.codigo}</code></pre>`;
-            addMessage(codigoHtml, 'gpt-message', true, timeString);  // Primeira mensagem: código SQL
-            const explicacaoHtml = marked.parse(data.explicacao);
-            addMessage(explicacaoHtml, 'gpt-message', true, timeString);  // Segunda mensagem: explicação
-          } else {
-            // Se não houver separação, exibe normalmente
-            const htmlContent = marked.parse(data.resposta);
-            addMessage(htmlContent, 'gpt-message', true, timeString);
-          }
-        })
-        .catch(error => {
-          console.error('Erro:', error);
-          if (typingMessageDiv) {
-            document.getElementById('messages').removeChild(typingMessageDiv);
-          }
-          addMessage('Erro ao conectar-se ao servidor.', 'gpt-message', false, timeString);
-        })
-        .finally(() => {
-          setLoading(false);
-        });
-      } else {
-        console.log("Campo de entrada vazio.");
-      }
-    }
 
     function addMessage(message, className, isHTML = false, timeString = '') {
       const messageDiv = document.createElement('div');
       messageDiv.className = 'message ' + className;
-
-      // Cria um container para o conteúdo da mensagem
-      const messageContent = document.createElement('div');
-      if (isHTML) {
-        messageContent.innerHTML = message;
-      } else {
-        messageContent.textContent = message;
-      }
-      messageDiv.appendChild(messageContent);
-
-      // Se for mensagem do ChatGPT, vamos procurar blocos <pre><code> e inserir o botão de copiar
-      if (className.includes('gpt-message')) {
-        // Seleciona todos os blocos de código
-        const codeBlocks = messageContent.querySelectorAll('pre > code');
-        codeBlocks.forEach((codeBlock) => {
-          const parentPre = codeBlock.parentNode; // <pre>
-
-          // Cria o botão de copiar
-          const copyButton = document.createElement('button');
-          copyButton.textContent = 'Copiar';
-          copyButton.className = 'copy-btn';
-
-          // Evento de clique para copiar o texto do bloco de código
-          copyButton.addEventListener('click', function() {
-            const codeText = codeBlock.innerText; // texto do código
-            navigator.clipboard.writeText(codeText)
-              .then(() => {
-                copyButton.textContent = 'Copiado!';
-                setTimeout(() => {
-                  copyButton.textContent = 'Copiar';
-                }, 2000);
-              })
-              .catch(err => {
-                console.error('Erro ao copiar o texto: ', err);
-              });
-          });
-
-          // Anexa o botão dentro do <pre>
-          parentPre.appendChild(copyButton);
-        });
-      }
-
-      // Carimba o horário
+      const contentDiv = document.createElement('div');
+      contentDiv.innerHTML = isHTML ? message : message;
+      messageDiv.appendChild(contentDiv);
       const timeDiv = document.createElement('div');
       timeDiv.className = 'time-stamp';
       timeDiv.textContent = timeString;
       messageDiv.appendChild(timeDiv);
-
       document.getElementById('messages').appendChild(messageDiv);
       document.getElementById('messages').scrollTop = document.getElementById('messages').scrollHeight;
     }
 
-    function setLoading(isLoading) {
-      const sendBtn = document.getElementById('send-btn');
-      sendBtn.disabled = isLoading;
-      sendBtn.textContent = isLoading ? 'Aguarde...' : 'Enviar';
+    function sendMessage() {
+      const input = document.getElementById('user-input');
+      const message = input.value;
+      if (message.trim() === '') return;
+      const now = new Date();
+      const time = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
+      addMessage(message, 'user-message', false, time);
+      input.value = '';
+      setLoading(true);
+
+      let loadingDiv;
+      setTimeout(() => {
+        loadingDiv = document.createElement('div');
+        loadingDiv.className = 'message gpt-message';
+        loadingDiv.textContent = 'Digitando...';
+        document.getElementById('messages').appendChild(loadingDiv);
+      }, 500);
+
+      fetch('https://vivagpt-backend-service-480232989535.us-central1.run.app/ask', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ pergunta: message })
+      })
+      .then(res => res.json())
+      .then(data => {
+        if (loadingDiv) loadingDiv.remove();
+        const html = marked.parse(data.resposta);
+        addMessage(html, 'gpt-message', true, time);
+      })
+      .catch(() => {
+        if (loadingDiv) loadingDiv.remove();
+        addMessage('Erro ao conectar-se ao servidor.', 'gpt-message', false, time);
+      })
+      .finally(() => setLoading(false));
     }
+
+    function setLoading(loading) {
+      const btn = document.getElementById('send-btn');
+      btn.disabled = loading;
+      btn.textContent = loading ? 'Aguarde...' : 'Enviar';
+    }
+
+    document.getElementById('send-btn').addEventListener('click', sendMessage);
+    document.getElementById('user-input').addEventListener('keypress', e => {
+      if (e.key === 'Enter') sendMessage();
+    });
   </script>
 </body>
 </html>
