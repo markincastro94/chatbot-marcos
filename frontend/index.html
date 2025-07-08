@@ -12,32 +12,34 @@
       margin: 0;
       padding: 0;
       height: 100vh;
-      display: flex;
-      flex-direction: column;
+      overflow: hidden;
     }
 
     .chat-container {
-      flex-grow: 1;
+      width: 100%;
+      height: 100vh;
       display: flex;
-      flex-direction: column;
-      align-items: center;
       justify-content: center;
-      padding: 10px;
+      align-items: center;
+      padding: 0;
+      background-color: #1e1e1e;
     }
 
     #chat-container {
       width: 100%;
-      max-width: 100%;
-      height: 100vh;
+      max-width: 1000px;
       background-color: #2b2b2b;
+      color: #f0f0f0;
+      box-shadow: none;
+      border-radius: 0;
       display: flex;
       flex-direction: column;
-      border-radius: 10px;
+      height: 100vh;
     }
 
     #messages {
       flex-grow: 1;
-      padding: 10px;
+      padding: 20px;
       overflow-y: auto;
       background-color: #1e1e1e;
       display: flex;
@@ -45,52 +47,72 @@
     }
 
     .message {
-      margin-bottom: 10px;
-      padding: 10px;
+      margin-bottom: 15px;
+      padding: 10px 15px;
       border-radius: 8px;
       word-wrap: break-word;
-      font-size: 14px;
-      max-width: 85%;
+      font-size: 16px;
+      line-height: 1.5;
+      max-width: 80%;
+      position: relative;
     }
 
     .user-message {
       background-color: #3b3b3b;
       align-self: flex-end;
       text-align: right;
+      color: #f0f0f0;
     }
 
     .gpt-message {
       background-color: #2f2f2f;
       align-self: flex-start;
       text-align: left;
+      color: #f0f0f0;
+    }
+
+    .time-stamp {
+      font-size: 12px;
+      color: #aaaaaa;
+      margin-top: 5px;
+      text-align: right;
+      display: block;
     }
 
     #input-area {
       display: flex;
-      padding: 10px;
+      padding: 15px;
       background-color: #2b2b2b;
       border-top: 1px solid #444;
     }
 
     #user-input {
       flex-grow: 1;
-      padding: 8px;
+      padding: 10px;
       border: 1px solid #555;
       border-radius: 5px;
       margin-right: 10px;
-      font-size: 14px;
+      font-size: 16px;
       background-color: #3b3b3b;
       color: #f0f0f0;
     }
 
+    #user-input::placeholder {
+      color: #cccccc;
+    }
+
     #send-btn {
-      padding: 8px 16px;
+      padding: 10px 20px;
       background-color: #28a745;
       color: white;
       border: none;
       border-radius: 5px;
       cursor: pointer;
-      font-size: 14px;
+      font-size: 16px;
+    }
+
+    #send-btn:hover {
+      background-color: #218838;
     }
 
     .copy-btn {
@@ -104,6 +126,10 @@
       border-radius: 4px;
     }
 
+    .copy-btn:hover {
+      background-color: #0056b3;
+    }
+
     pre {
       background-color: #272822;
       color: #f8f8f2;
@@ -111,14 +137,7 @@
       border-radius: 5px;
       overflow-x: auto;
       position: relative;
-    }
-
-    .time-stamp {
-      font-size: 10px;
-      color: #aaaaaa;
-      margin-top: 5px;
-      text-align: right;
-      display: block;
+      margin-bottom: 0;
     }
   </style>
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
@@ -137,71 +156,107 @@
   <script>
     window.onload = function() {
       const initialMessage = "Olá, em que posso te ajudar? 😊";
-      const now = new Date();
-      const time = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
-      addMessage(initialMessage, 'gpt-message', false, time);
+      const currentTime = new Date();
+      const timeString = currentTime.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+      addMessage(initialMessage, 'gpt-message', false, timeString);
     };
 
-    function addMessage(message, className, isHTML = false, timeString = '') {
-      const messageDiv = document.createElement('div');
-      messageDiv.className = 'message ' + className;
-      const contentDiv = document.createElement('div');
-      contentDiv.innerHTML = isHTML ? message : message;
-      messageDiv.appendChild(contentDiv);
-      const timeDiv = document.createElement('div');
-      timeDiv.className = 'time-stamp';
-      timeDiv.textContent = timeString;
-      messageDiv.appendChild(timeDiv);
-      document.getElementById('messages').appendChild(messageDiv);
-      document.getElementById('messages').scrollTop = document.getElementById('messages').scrollHeight;
-    }
+    const sendBtn = document.getElementById('send-btn');
+    const userInputEl = document.getElementById('user-input');
+
+    sendBtn.addEventListener('click', sendMessage);
+    userInputEl.addEventListener('keypress', function(e) {
+      if (e.key === 'Enter') sendMessage();
+    });
 
     function sendMessage() {
-      const input = document.getElementById('user-input');
-      const message = input.value;
-      if (message.trim() === '') return;
-      const now = new Date();
-      const time = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
-      addMessage(message, 'user-message', false, time);
-      input.value = '';
+      const userInput = userInputEl.value;
+      if (userInput.trim() === '') return;
+
+      const timeString = new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+      addMessage(userInput, 'user-message', false, timeString);
+      userInputEl.value = '';
       setLoading(true);
 
-      let loadingDiv;
+      let typingMessageDiv;
       setTimeout(() => {
-        loadingDiv = document.createElement('div');
-        loadingDiv.className = 'message gpt-message';
-        loadingDiv.textContent = 'Digitando...';
-        document.getElementById('messages').appendChild(loadingDiv);
+        typingMessageDiv = document.createElement('div');
+        typingMessageDiv.className = 'message gpt-message';
+        typingMessageDiv.textContent = "Digitando...";
+        document.getElementById('messages').appendChild(typingMessageDiv);
+        document.getElementById('messages').scrollTop = document.getElementById('messages').scrollHeight;
       }, 500);
 
       fetch('https://vivagpt-backend-service-480232989535.us-central1.run.app/ask', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ pergunta: message })
+        body: JSON.stringify({ pergunta: userInput }),
       })
-      .then(res => res.json())
+      .then(response => {
+        if (!response.ok) throw new Error('Erro na resposta do servidor');
+        return response.json();
+      })
       .then(data => {
-        if (loadingDiv) loadingDiv.remove();
-        const html = marked.parse(data.resposta);
-        addMessage(html, 'gpt-message', true, time);
+        if (typingMessageDiv) typingMessageDiv.remove();
+
+        if (data.codigo && data.explicacao) {
+          addMessage(`<pre><code>${data.codigo}</code></pre>`, 'gpt-message', true, timeString);
+          addMessage(marked.parse(data.explicacao), 'gpt-message', true, timeString);
+        } else {
+          addMessage(marked.parse(data.resposta), 'gpt-message', true, timeString);
+        }
       })
-      .catch(() => {
-        if (loadingDiv) loadingDiv.remove();
-        addMessage('Erro ao conectar-se ao servidor.', 'gpt-message', false, time);
+      .catch(error => {
+        console.error('Erro:', error);
+        if (typingMessageDiv) typingMessageDiv.remove();
+        addMessage('Erro ao conectar-se ao servidor.', 'gpt-message', false, timeString);
       })
-      .finally(() => setLoading(false));
+      .finally(() => {
+        setLoading(false);
+      });
     }
 
-    function setLoading(loading) {
-      const btn = document.getElementById('send-btn');
-      btn.disabled = loading;
-      btn.textContent = loading ? 'Aguarde...' : 'Enviar';
+    function addMessage(message, className, isHTML = false, timeString = '') {
+      const messageDiv = document.createElement('div');
+      messageDiv.className = 'message ' + className;
+
+      const messageContent = document.createElement('div');
+      messageContent[isHTML ? 'innerHTML' : 'textContent'] = message;
+      messageDiv.appendChild(messageContent);
+
+      if (className.includes('gpt-message')) {
+        const codeBlocks = messageContent.querySelectorAll('pre > code');
+        codeBlocks.forEach((codeBlock) => {
+          const parentPre = codeBlock.parentNode;
+          const copyButton = document.createElement('button');
+          copyButton.textContent = 'Copiar';
+          copyButton.className = 'copy-btn';
+
+          copyButton.onclick = function() {
+            navigator.clipboard.writeText(codeBlock.innerText).then(() => {
+              copyButton.textContent = 'Copiado!';
+              setTimeout(() => copyButton.textContent = 'Copiar', 2000);
+            });
+          };
+
+          parentPre.appendChild(copyButton);
+        });
+      }
+
+      const timeDiv = document.createElement('div');
+      timeDiv.className = 'time-stamp';
+      timeDiv.textContent = timeString;
+      messageDiv.appendChild(timeDiv);
+
+      const messagesContainer = document.getElementById('messages');
+      messagesContainer.appendChild(messageDiv);
+      messagesContainer.scrollTop = messagesContainer.scrollHeight;
     }
 
-    document.getElementById('send-btn').addEventListener('click', sendMessage);
-    document.getElementById('user-input').addEventListener('keypress', e => {
-      if (e.key === 'Enter') sendMessage();
-    });
+    function setLoading(isLoading) {
+      sendBtn.disabled = isLoading;
+      sendBtn.textContent = isLoading ? 'Aguarde...' : 'Enviar';
+    }
   </script>
 </body>
 </html>
