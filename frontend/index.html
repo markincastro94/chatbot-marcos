@@ -1,164 +1,188 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Chatbot Marcos Castro</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Site Marcos Castro</title>
   <style>
     body {
       font-family: 'Arial', sans-serif;
-      background-color: #1e1e1e;
-      color: #f0f0f0;
+      background-color: #f4f4f4;
       margin: 0;
       padding: 0;
-      height: 100vh;
-      overflow: hidden;
     }
 
-    .chat-container {
+    /* Capa */
+    .capa {
       width: 100%;
-      height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      padding: 0;
-      background-color: #1e1e1e;
+      height: 300px;
+      background-image: url('static/Capa.png');
+      background-size: cover;
+      background-position: center;
     }
 
-    #chat-container {
-      width: 100%;
-      max-width: 1000px;
+    /* Dashboards */
+    .conteudo {
+      padding: 30px;
+      text-align: center;
+    }
+
+    .conteudo h2 {
+      margin-bottom: 20px;
+    }
+
+    .dashboard-link {
+      display: inline-block;
+      margin: 10px;
+      padding: 15px 25px;
+      background-color: #007bff;
+      color: white;
+      border-radius: 8px;
+      text-decoration: none;
+      font-size: 16px;
+    }
+
+    .dashboard-link:hover {
+      background-color: #0056b3;
+    }
+
+    /* Botão flutuante do chat */
+    .chat-btn {
+      position: fixed;
+      bottom: 25px;
+      right: 25px;
+      background-color: #28a745;
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 60px;
+      height: 60px;
+      font-size: 28px;
+      cursor: pointer;
+      z-index: 1000;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    }
+
+    .chat-window {
+      position: fixed;
+      bottom: 100px;
+      right: 25px;
+      width: 350px;
+      height: 500px;
       background-color: #2b2b2b;
-      color: #f0f0f0;
-      box-shadow: none;
-      border-radius: 0;
-      display: flex;
+      color: #fff;
+      border-radius: 10px;
+      display: none;
       flex-direction: column;
-      height: 100vh;
+      z-index: 999;
+      overflow: hidden;
     }
 
     #messages {
       flex-grow: 1;
-      padding: 20px;
+      padding: 15px;
       overflow-y: auto;
       background-color: #1e1e1e;
-      display: flex;
-      flex-direction: column;
     }
 
     .message {
-      margin-bottom: 15px;
-      padding: 10px 15px;
+      margin-bottom: 12px;
+      padding: 10px;
       border-radius: 8px;
-      word-wrap: break-word;
-      font-size: 16px;
-      line-height: 1.5;
+      font-size: 14px;
       max-width: 80%;
-      position: relative;
     }
 
     .user-message {
       background-color: #3b3b3b;
       align-self: flex-end;
       text-align: right;
-      color: #f0f0f0;
     }
 
     .gpt-message {
       background-color: #2f2f2f;
       align-self: flex-start;
       text-align: left;
-      color: #f0f0f0;
     }
 
     .time-stamp {
-      font-size: 12px;
-      color: #aaaaaa;
-      margin-top: 5px;
+      font-size: 10px;
+      color: #ccc;
+      margin-top: 4px;
       text-align: right;
-      display: block;
     }
 
     #input-area {
       display: flex;
-      padding: 15px;
+      padding: 10px;
       background-color: #2b2b2b;
       border-top: 1px solid #444;
     }
 
     #user-input {
       flex-grow: 1;
-      padding: 10px;
-      border: 1px solid #555;
-      border-radius: 5px;
-      margin-right: 10px;
-      font-size: 16px;
+      padding: 8px;
+      font-size: 14px;
       background-color: #3b3b3b;
-      color: #f0f0f0;
-    }
-
-    #user-input::placeholder {
-      color: #cccccc;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      margin-right: 8px;
     }
 
     #send-btn {
-      padding: 10px 20px;
       background-color: #28a745;
       color: white;
       border: none;
       border-radius: 5px;
+      padding: 8px 12px;
       cursor: pointer;
-      font-size: 16px;
     }
 
     #send-btn:hover {
       background-color: #218838;
     }
-
-    .copy-btn {
-      margin-top: 5px;
-      padding: 5px 10px;
-      font-size: 12px;
-      cursor: pointer;
-      background-color: #007bff;
-      color: white;
-      border: none;
-      border-radius: 4px;
-    }
-
-    .copy-btn:hover {
-      background-color: #0056b3;
-    }
-
-    pre {
-      background-color: #272822;
-      color: #f8f8f2;
-      padding: 10px;
-      border-radius: 5px;
-      overflow-x: auto;
-      position: relative;
-      margin-bottom: 0;
-    }
   </style>
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 </head>
 <body>
-  <div class="chat-container">
-    <div id="chat-container">
-      <div id="messages"></div>
-      <div id="input-area">
-        <input type="text" id="user-input" placeholder="Digite sua pergunta..." autocomplete="off">
-        <button id="send-btn">Enviar</button>
-      </div>
+
+  <!-- Capa -->
+  <div class="capa"></div>
+
+  <!-- Dashboards -->
+  <div class="conteudo">
+    <h2>Meus Dashboards no Power BI</h2>
+
+    <a href="https://app.powerbi.com/view?r=eyJrIjoiMDIxNWFmMDgtZWE5Zi00NjEwLWI3ZGEtYWViZWRkMTZkM2Y2IiwidCI6Ijc3MjE1NGI4LWYxOTktNGZhNC1iMjk5LWMzNzBlOWJlNDNkZiJ9" target="_blank" class="dashboard-link">
+      Análise Covid-19 no Brasil
+    </a>
+
+    <a href="https://app.powerbi.com/view?r=eyJrIjoiZTM4ZWZjNGQtNmNhOC00NWNjLWFhYmItN2YxN2UzYWE1YWMxIiwidCI6Ijc3MjE1NGI4LWYxOTktNGZhNC1iMjk5LWMzNzBlOWJlNDNkZiJ9" target="_blank" class="dashboard-link">
+      Gestão Craque Store
+    </a>
+  </div>
+
+  <!-- Botão do chat -->
+  <button class="chat-btn" onclick="toggleChat()">💬</button>
+
+  <!-- Chat -->
+  <div class="chat-window" id="chatWindow">
+    <div id="messages"></div>
+    <div id="input-area">
+      <input type="text" id="user-input" placeholder="Digite sua pergunta..." />
+      <button id="send-btn">Enviar</button>
     </div>
   </div>
 
   <script>
+    function toggleChat() {
+      const chatWindow = document.getElementById('chatWindow');
+      chatWindow.style.display = chatWindow.style.display === 'flex' ? 'none' : 'flex';
+    }
+
     window.onload = function() {
-      const initialMessage = "Olá, em que posso te ajudar? 😊";
-      const currentTime = new Date();
-      const timeString = currentTime.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
-      addMessage(initialMessage, 'gpt-message', false, timeString);
+      addMessage("Olá! Em que posso ajudar?", 'gpt-message', false, new Date().toLocaleTimeString([], {hour: '2-digit', minute: '2-digit'}));
     };
 
     const sendBtn = document.getElementById('send-btn');
@@ -173,32 +197,17 @@
       const userInput = userInputEl.value;
       if (userInput.trim() === '') return;
 
-      const timeString = new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+      const timeString = new Date().toLocaleTimeString([], {hour: '2-digit', minute: '2-digit'});
       addMessage(userInput, 'user-message', false, timeString);
       userInputEl.value = '';
-      setLoading(true);
-
-      let typingMessageDiv;
-      setTimeout(() => {
-        typingMessageDiv = document.createElement('div');
-        typingMessageDiv.className = 'message gpt-message';
-        typingMessageDiv.textContent = "Digitando...";
-        document.getElementById('messages').appendChild(typingMessageDiv);
-        document.getElementById('messages').scrollTop = document.getElementById('messages').scrollHeight;
-      }, 500);
 
       fetch('https://vivagpt-backend-service-480232989535.us-central1.run.app/ask', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ pergunta: userInput }),
       })
-      .then(response => {
-        if (!response.ok) throw new Error('Erro na resposta do servidor');
-        return response.json();
-      })
+      .then(res => res.json())
       .then(data => {
-        if (typingMessageDiv) typingMessageDiv.remove();
-
         if (data.codigo && data.explicacao) {
           addMessage(`<pre><code>${data.codigo}</code></pre>`, 'gpt-message', true, timeString);
           addMessage(marked.parse(data.explicacao), 'gpt-message', true, timeString);
@@ -206,56 +215,22 @@
           addMessage(marked.parse(data.resposta), 'gpt-message', true, timeString);
         }
       })
-      .catch(error => {
-        console.error('Erro:', error);
-        if (typingMessageDiv) typingMessageDiv.remove();
-        addMessage('Erro ao conectar-se ao servidor.', 'gpt-message', false, timeString);
-      })
-      .finally(() => {
-        setLoading(false);
-      });
+      .catch(() => addMessage('Erro ao conectar-se ao servidor.', 'gpt-message', false, timeString));
     }
 
     function addMessage(message, className, isHTML = false, timeString = '') {
-      const messageDiv = document.createElement('div');
-      messageDiv.className = 'message ' + className;
-
-      const messageContent = document.createElement('div');
-      messageContent[isHTML ? 'innerHTML' : 'textContent'] = message;
-      messageDiv.appendChild(messageContent);
-
-      if (className.includes('gpt-message')) {
-        const codeBlocks = messageContent.querySelectorAll('pre > code');
-        codeBlocks.forEach((codeBlock) => {
-          const parentPre = codeBlock.parentNode;
-          const copyButton = document.createElement('button');
-          copyButton.textContent = 'Copiar';
-          copyButton.className = 'copy-btn';
-
-          copyButton.onclick = function() {
-            navigator.clipboard.writeText(codeBlock.innerText).then(() => {
-              copyButton.textContent = 'Copiado!';
-              setTimeout(() => copyButton.textContent = 'Copiar', 2000);
-            });
-          };
-
-          parentPre.appendChild(copyButton);
-        });
-      }
+      const msgDiv = document.createElement('div');
+      msgDiv.className = 'message ' + className;
+      msgDiv[isHTML ? 'innerHTML' : 'textContent'] = message;
 
       const timeDiv = document.createElement('div');
       timeDiv.className = 'time-stamp';
       timeDiv.textContent = timeString;
-      messageDiv.appendChild(timeDiv);
+      msgDiv.appendChild(timeDiv);
 
       const messagesContainer = document.getElementById('messages');
-      messagesContainer.appendChild(messageDiv);
+      messagesContainer.appendChild(msgDiv);
       messagesContainer.scrollTop = messagesContainer.scrollHeight;
-    }
-
-    function setLoading(isLoading) {
-      sendBtn.disabled = isLoading;
-      sendBtn.textContent = isLoading ? 'Aguarde...' : 'Enviar';
     }
   </script>
 </body>
