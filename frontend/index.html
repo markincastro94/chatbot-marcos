@@ -3,137 +3,113 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Portfólio Power BI - Marcos Castro</title>
+  <title>Portfólio Marcos Castro</title>
   <style>
     body {
       font-family: Arial, sans-serif;
       margin: 0;
       padding: 0;
-      background-color: #f2f2f2;
+      background: #f4f4f4;
     }
 
     header {
-      background-color: #003366;
-      color: white;
-      padding: 40px 20px;
-      text-align: center;
-    }
-
-    header h1 {
-      margin: 0;
-      font-size: 2em;
-    }
-
-    .imagem-capa {
-      width: 100%;
-      max-width: 800px;
-      display: block;
-      margin: 30px auto;
-      border-radius: 10px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-    }
-
-    .conteudo {
+      background: #fff;
       padding: 20px;
       text-align: center;
     }
 
-    .dashboard {
+    header img {
+      max-width: 100%;
+      height: auto;
+    }
+
+    section {
+      max-width: 1140px;
       margin: 40px auto;
-      max-width: 1000px;
+      background: #fff;
       padding: 20px;
-      background: white;
-      border-radius: 10px;
+      border-radius: 8px;
       box-shadow: 0 0 10px rgba(0,0,0,0.1);
     }
 
-    .dashboard iframe {
+    h2 {
+      font-size: 22px;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    iframe {
       width: 100%;
-      height: 500px;
+      height: 540px;
       border: none;
-      border-radius: 10px;
+      border-radius: 6px;
     }
 
-    footer {
-      background-color: #003366;
-      color: white;
-      text-align: center;
-      padding: 10px;
-      margin-top: 40px;
-    }
-
-    /* Balão flutuante do chat */
+    /* Chatbot flutuante */
     #chatbot-button {
       position: fixed;
       bottom: 20px;
       right: 20px;
-      background-color: #003366;
+      background: #0078D7;
       color: white;
       border: none;
-      border-radius: 50%;
-      width: 60px;
-      height: 60px;
-      font-size: 30px;
+      padding: 12px 16px;
+      border-radius: 50px;
+      font-size: 16px;
       cursor: pointer;
       z-index: 1000;
       box-shadow: 0 4px 8px rgba(0,0,0,0.2);
     }
 
-    #chatbot-frame {
-      display: none;
+    #chatbot-iframe {
       position: fixed;
-      bottom: 90px;
+      bottom: 80px;
       right: 20px;
       width: 350px;
       height: 500px;
       border: none;
-      border-radius: 10px;
+      display: none;
       z-index: 1000;
-      box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+      border-radius: 12px;
+      box-shadow: 0 8px 16px rgba(0,0,0,0.2);
     }
   </style>
 </head>
 <body>
 
+  <!-- Capa -->
   <header>
-    <h1>Portfólio de Projetos no Power BI</h1>
+    <img src="Capa.png" alt="Capa do Portfólio">
   </header>
 
-  <!-- Imagem de capa -->
-  <img src="Capa.png" alt="Imagem de capa do portfólio" class="imagem-capa"/>
+  <!-- Dashboard 1 -->
+  <section>
+    <h2>📊 Dashboard - Covid-19 no Brasil</h2>
+    <iframe title="Analise Covid-19 Brasil" src="https://app.powerbi.com/reportEmbed?reportId=988ef4f0-a451-4057-aa27-fba666ff4a88&autoAuth=true&ctid=772154b8-f199-4fa4-b299-c370e9be43df" allowFullScreen="true"></iframe>
+  </section>
 
-  <!-- Conteúdo de boas-vindas -->
-  <div class="conteudo">
-    <h2>Olá, eu sou Marcos Castro!</h2>
-    <p>Bem-vindo ao meu portfólio de projetos desenvolvidos com Power BI. Aqui você encontrará dashboards interativos que demonstram minhas habilidades com análise de dados, visualização e storytelling com dados.</p>
-  </div>
+  <!-- Dashboard 2 -->
+  <section>
+    <h2>🏪 Dashboard - Gestão Craque Store</h2>
+    <iframe title="Gestão Craque Store" src="https://app.powerbi.com/reportEmbed?reportId=60891c0d-3886-4fe7-887c-35663ce903f9&autoAuth=true&ctid=772154b8-f199-4fa4-b299-c370e9be43df" allowFullScreen="true"></iframe>
+  </section>
 
-  <!-- Portfólio de dashboards -->
-  <div class="dashboard">
-    <h3>📊 Dashboard - Vendas por Região</h3>
-    <iframe src="https://app.powerbi.com/view?r=SEU-LINK-AQUI" allowfullscreen></iframe>
-  </div>
-
-  <div class="dashboard">
-    <h3>📈 Dashboard - Análise Financeira</h3>
-    <iframe src="https://app.powerbi.com/view?r=SEU-LINK-AQUI" allowfullscreen></iframe>
-  </div>
-
-  <!-- Footer -->
-  <footer>
-    © 2025 Marcos Castro - Todos os direitos reservados
-  </footer>
-
-  <!-- Botão flutuante e chat -->
-  <button id="chatbot-button">💬</button>
-  <iframe id="chatbot-frame" src="https://SEU-LINK-DO-CHATBOT"></iframe>
+  <!-- Botão flutuante do chatbot -->
+  <button id="chatbot-button">💬 Falar com o Marcos</button>
+  <iframe id="chatbot-iframe" src="https://seu-chatbot.com" title="Chatbot Marcos"></iframe>
 
   <script>
-    const chatbotButton = document.getElementById('chatbot-button');
-    const chatbotFrame = document.getElementById('chatbot-frame');
+    const botBtn = document.getElementById("chatbot-button");
+    const botFrame = document.getElementById("chatbot-iframe");
 
-    chatbotButton.addEventListener('click', () => {
-      chatbotFrame.style.display = chatbotFrame.style.display === 'none' ? 'block' : 'none';
+    botBtn.addEventListener("click", () => {
+      if (botFrame.style.display === "none") {
+        botFrame.style.display = "block";
+      } else {
+        botFrame.style.display = "none";
+      }
     });
   </script>
 
