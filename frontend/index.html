@@ -12,16 +12,14 @@
       padding: 0;
     }
 
-    /* Capa */
     .capa {
       width: 100%;
       height: 300px;
-      background-image: url('static/Capa.png');
+      background-image: url('./static/Capa.png');
       background-size: cover;
       background-position: center;
     }
 
-    /* Dashboards */
     .conteudo {
       padding: 30px;
       text-align: center;
@@ -46,7 +44,6 @@
       background-color: #0056b3;
     }
 
-    /* Botão flutuante do chat */
     .chat-btn {
       position: fixed;
       bottom: 25px;
@@ -182,7 +179,9 @@
     }
 
     window.onload = function() {
-      addMessage("Olá! Em que posso ajudar?", 'gpt-message', false, new Date().toLocaleTimeString([], {hour: '2-digit', minute: '2-digit'}));
+      const mensagem = "Olá, vou te falar um pouco do Marcos Castro, mas qualquer dúvida, entre em contato com ele no telefone (32) 99159-4902 ok?";
+      const hora = new Date().toLocaleTimeString([], {hour: '2-digit', minute: '2-digit'});
+      addMessage(mensagem, 'gpt-message', false, hora);
     };
 
     const sendBtn = document.getElementById('send-btn');
