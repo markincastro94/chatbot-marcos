@@ -1,236 +1,70 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-br">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Site Marcos Castro</title>
-  <style>
-    body {
-      font-family: 'Arial', sans-serif;
-      background-color: #f4f4f4;
-      margin: 0;
-      padding: 0;
-    }
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Portfólio Power BI - Marcos Castro</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f2f2f2;
+        }
 
-    .capa {
-      width: 100%;
-      height: 300px;
-      background-image: url('frontend/frontend/static/Capa.png');
-      background-size: cover;
-      background-position: center;
-    }
+        header {
+            background-color: #003366;
+            color: white;
+            padding: 40px 20px;
+            text-align: center;
+        }
 
-    .conteudo {
-      padding: 30px;
-      text-align: center;
-    }
+        header h1 {
+            margin: 0;
+            font-size: 2em;
+        }
 
-    .conteudo h2 {
-      margin-bottom: 20px;
-    }
+        .imagem-capa {
+            width: 100%;
+            max-width: 800px;
+            display: block;
+            margin: 30px auto;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        }
 
-    .dashboard-link {
-      display: inline-block;
-      margin: 10px;
-      padding: 15px 25px;
-      background-color: #007bff;
-      color: white;
-      border-radius: 8px;
-      text-decoration: none;
-      font-size: 16px;
-    }
+        .conteudo {
+            padding: 20px;
+            text-align: center;
+        }
 
-    .dashboard-link:hover {
-      background-color: #0056b3;
-    }
-
-    .chat-btn {
-      position: fixed;
-      bottom: 25px;
-      right: 25px;
-      background-color: #28a745;
-      color: white;
-      border: none;
-      border-radius: 50%;
-      width: 60px;
-      height: 60px;
-      font-size: 28px;
-      cursor: pointer;
-      z-index: 1000;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-    }
-
-    .chat-window {
-      position: fixed;
-      bottom: 100px;
-      right: 25px;
-      width: 350px;
-      height: 500px;
-      background-color: #2b2b2b;
-      color: #fff;
-      border-radius: 10px;
-      display: none;
-      flex-direction: column;
-      z-index: 999;
-      overflow: hidden;
-    }
-
-    #messages {
-      flex-grow: 1;
-      padding: 15px;
-      overflow-y: auto;
-      background-color: #1e1e1e;
-    }
-
-    .message {
-      margin-bottom: 12px;
-      padding: 10px;
-      border-radius: 8px;
-      font-size: 14px;
-      max-width: 80%;
-    }
-
-    .user-message {
-      background-color: #3b3b3b;
-      align-self: flex-end;
-      text-align: right;
-    }
-
-    .gpt-message {
-      background-color: #2f2f2f;
-      align-self: flex-start;
-      text-align: left;
-    }
-
-    .time-stamp {
-      font-size: 10px;
-      color: #ccc;
-      margin-top: 4px;
-      text-align: right;
-    }
-
-    #input-area {
-      display: flex;
-      padding: 10px;
-      background-color: #2b2b2b;
-      border-top: 1px solid #444;
-    }
-
-    #user-input {
-      flex-grow: 1;
-      padding: 8px;
-      font-size: 14px;
-      background-color: #3b3b3b;
-      color: white;
-      border: none;
-      border-radius: 5px;
-      margin-right: 8px;
-    }
-
-    #send-btn {
-      background-color: #28a745;
-      color: white;
-      border: none;
-      border-radius: 5px;
-      padding: 8px 12px;
-      cursor: pointer;
-    }
-
-    #send-btn:hover {
-      background-color: #218838;
-    }
-  </style>
-  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+        footer {
+            background-color: #003366;
+            color: white;
+            text-align: center;
+            padding: 10px;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+    </style>
 </head>
 <body>
 
-  <!-- Capa -->
-  <div class="capa"></div>
+    <header>
+        <h1>Portfólio de Projetos no Power BI</h1>
+    </header>
 
-  <!-- Dashboards -->
-  <div class="conteudo">
-    <h2>Meus Dashboards no Power BI</h2>
+    <img src="Capa.png" alt="Imagem de capa do portfólio" class="imagem-capa"/>
 
-    <a href="https://app.powerbi.com/view?r=eyJrIjoiMDIxNWFmMDgtZWE5Zi00NjEwLWI3ZGEtYWViZWRkMTZkM2Y2IiwidCI6Ijc3MjE1NGI4LWYxOTktNGZhNC1iMjk5LWMzNzBlOWJlNDNkZiJ9" target="_blank" class="dashboard-link">
-      Análise Covid-19 no Brasil
-    </a>
-
-    <a href="https://app.powerbi.com/view?r=eyJrIjoiZTM4ZWZjNGQtNmNhOC00NWNjLWFhYmItN2YxN2UzYWE1YWMxIiwidCI6Ijc3MjE1NGI4LWYxOTktNGZhNC1iMjk5LWMzNzBlOWJlNDNkZiJ9" target="_blank" class="dashboard-link">
-      Gestão Craque Store
-    </a>
-  </div>
-
-  <!-- Botão do chat -->
-  <button class="chat-btn" onclick="toggleChat()">💬</button>
-
-  <!-- Chat -->
-  <div class="chat-window" id="chatWindow">
-    <div id="messages"></div>
-    <div id="input-area">
-      <input type="text" id="user-input" placeholder="Digite sua pergunta..." />
-      <button id="send-btn">Enviar</button>
+    <div class="conteudo">
+        <h2>Olá, eu sou Marcos Castro!</h2>
+        <p>Bem-vindo ao meu portfólio de projetos desenvolvidos com Power BI. Aqui você encontrará dashboards interativos que demonstram minhas habilidades com análise de dados, visualização e storytelling com dados.</p>
     </div>
-  </div>
 
-  <script>
-    function toggleChat() {
-      const chatWindow = document.getElementById('chatWindow');
-      chatWindow.style.display = chatWindow.style.display === 'flex' ? 'none' : 'flex';
-    }
+    <footer>
+        © 2025 Marcos Castro - Todos os direitos reservados
+    </footer>
 
-    window.onload = function() {
-      const mensagem = "Olá, vou te falar um pouco do Marcos Castro, mas qualquer dúvida, entre em contato com ele no telefone (32) 99159-4902 ok?";
-      const hora = new Date().toLocaleTimeString([], {hour: '2-digit', minute: '2-digit'});
-      addMessage(mensagem, 'gpt-message', false, hora);
-    };
-
-    const sendBtn = document.getElementById('send-btn');
-    const userInputEl = document.getElementById('user-input');
-
-    sendBtn.addEventListener('click', sendMessage);
-    userInputEl.addEventListener('keypress', function(e) {
-      if (e.key === 'Enter') sendMessage();
-    });
-
-    function sendMessage() {
-      const userInput = userInputEl.value;
-      if (userInput.trim() === '') return;
-
-      const timeString = new Date().toLocaleTimeString([], {hour: '2-digit', minute: '2-digit'});
-      addMessage(userInput, 'user-message', false, timeString);
-      userInputEl.value = '';
-
-      fetch('https://vivagpt-backend-service-480232989535.us-central1.run.app/ask', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ pergunta: userInput }),
-      })
-      .then(res => res.json())
-      .then(data => {
-        if (data.codigo && data.explicacao) {
-          addMessage(`<pre><code>${data.codigo}</code></pre>`, 'gpt-message', true, timeString);
-          addMessage(marked.parse(data.explicacao), 'gpt-message', true, timeString);
-        } else {
-          addMessage(marked.parse(data.resposta), 'gpt-message', true, timeString);
-        }
-      })
-      .catch(() => addMessage('Erro ao conectar-se ao servidor.', 'gpt-message', false, timeString));
-    }
-
-    function addMessage(message, className, isHTML = false, timeString = '') {
-      const msgDiv = document.createElement('div');
-      msgDiv.className = 'message ' + className;
-      msgDiv[isHTML ? 'innerHTML' : 'textContent'] = message;
-
-      const timeDiv = document.createElement('div');
-      timeDiv.className = 'time-stamp';
-      timeDiv.textContent = timeString;
-      msgDiv.appendChild(timeDiv);
-
-      const messagesContainer = document.getElementById('messages');
-      messagesContainer.appendChild(msgDiv);
-      messagesContainer.scrollTop = messagesContainer.scrollHeight;
-    }
-  </script>
 </body>
 </html>
