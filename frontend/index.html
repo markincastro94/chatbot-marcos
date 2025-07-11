@@ -47,7 +47,7 @@
       border-radius: 6px;
     }
 
-    /* Chatbot flutuante */
+    /* Botão do chatbot */
     #chatbot-button {
       position: fixed;
       bottom: 20px;
@@ -63,19 +63,100 @@
       box-shadow: 0 4px 8px rgba(0,0,0,0.2);
     }
 
-    #chatbot-iframe {
+    /* Janela flutuante do chatbot */
+    #chatbot-container {
+      display: none;
       position: fixed;
       bottom: 80px;
       right: 20px;
-      width: 350px;
-      height: 500px;
-      border: none;
-      display: none;
-      z-index: 1000;
+      width: 370px;
+      height: 600px;
+      background-color: #2b2b2b;
+      color: #f0f0f0;
       border-radius: 12px;
-      box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+      overflow: hidden;
+      z-index: 999;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+      display: flex;
+      flex-direction: column;
+    }
+
+    #messages {
+      flex-grow: 1;
+      padding: 20px;
+      overflow-y: auto;
+      background-color: #1e1e1e;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .message {
+      margin-bottom: 15px;
+      padding: 10px 15px;
+      border-radius: 8px;
+      font-size: 14px;
+      max-width: 80%;
+    }
+
+    .user-message {
+      background-color: #3b3b3b;
+      align-self: flex-end;
+      text-align: right;
+    }
+
+    .gpt-message {
+      background-color: #2f2f2f;
+      align-self: flex-start;
+      text-align: left;
+    }
+
+    .time-stamp {
+      font-size: 12px;
+      color: #aaaaaa;
+      margin-top: 5px;
+      text-align: right;
+    }
+
+    #input-area {
+      display: flex;
+      padding: 10px;
+      background-color: #2b2b2b;
+      border-top: 1px solid #444;
+    }
+
+    #user-input {
+      flex-grow: 1;
+      padding: 8px;
+      font-size: 14px;
+      background-color: #3b3b3b;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      margin-right: 8px;
+    }
+
+    #send-btn {
+      background-color: #28a745;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      padding: 8px 12px;
+      cursor: pointer;
+    }
+
+    #send-btn:hover {
+      background-color: #218838;
+    }
+
+    pre {
+      background-color: #272822;
+      color: #f8f8f2;
+      padding: 10px;
+      border-radius: 5px;
+      overflow-x: auto;
     }
   </style>
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 </head>
 <body>
 
@@ -96,21 +177,80 @@
     <iframe title="Gestão Craque Store" src="https://app.powerbi.com/reportEmbed?reportId=60891c0d-3886-4fe7-887c-35663ce903f9&autoAuth=true&ctid=772154b8-f199-4fa4-b299-c370e9be43df" allowFullScreen="true"></iframe>
   </section>
 
-  <!-- Botão flutuante do chatbot -->
+  <!-- Botão flutuante -->
   <button id="chatbot-button">💬 Falar com o Marcos</button>
-  <iframe id="chatbot-iframe" src="https://seu-chatbot.com" title="Chatbot Marcos"></iframe>
+
+  <!-- Chatbot -->
+  <div id="chatbot-container">
+    <div id="messages"></div>
+    <div id="input-area">
+      <input type="text" id="user-input" placeholder="Digite sua pergunta..." />
+      <button id="send-btn">Enviar</button>
+    </div>
+  </div>
 
   <script>
-    const botBtn = document.getElementById("chatbot-button");
-    const botFrame = document.getElementById("chatbot-iframe");
+    const chatbotButton = document.getElementById('chatbot-button');
+    const chatbotContainer = document.getElementById('chatbot-container');
+    const sendBtn = document.getElementById('send-btn');
+    const userInputEl = document.getElementById('user-input');
 
-    botBtn.addEventListener("click", () => {
-      if (botFrame.style.display === "none") {
-        botFrame.style.display = "block";
-      } else {
-        botFrame.style.display = "none";
-      }
+    chatbotButton.addEventListener('click', () => {
+      chatbotContainer.style.display = chatbotContainer.style.display === 'flex' ? 'none' : 'flex';
     });
+
+    window.onload = function () {
+      const mensagem = "Olá, em que posso te ajudar? 😊";
+      const hora = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+      addMessage(mensagem, 'gpt-message', false, hora);
+    };
+
+    sendBtn.addEventListener('click', sendMessage);
+    userInputEl.addEventListener('keypress', function (e) {
+      if (e.key === 'Enter') sendMessage();
+    });
+
+    function sendMessage() {
+      const userInput = userInputEl.value;
+      if (userInput.trim() === '') return;
+
+      const timeString = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+      addMessage(userInput, 'user-message', false, timeString);
+      userInputEl.value = '';
+
+      fetch('https://vivagpt-backend-service-480232989535.us-central1.run.app/ask', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ pergunta: userInput }),
+      })
+        .then(res => res.json())
+        .then(data => {
+          if (data.codigo && data.explicacao) {
+            addMessage(`<pre><code>${data.codigo}</code></pre>`, 'gpt-message', true, timeString);
+            addMessage(marked.parse(data.explicacao), 'gpt-message', true, timeString);
+          } else {
+            addMessage(marked.parse(data.resposta), 'gpt-message', true, timeString);
+          }
+        })
+        .catch(() => {
+          addMessage('Erro ao conectar-se ao servidor.', 'gpt-message', false, timeString);
+        });
+    }
+
+    function addMessage(message, className, isHTML = false, timeString = '') {
+      const msgDiv = document.createElement('div');
+      msgDiv.className = 'message ' + className;
+      msgDiv[isHTML ? 'innerHTML' : 'textContent'] = message;
+
+      const timeDiv = document.createElement('div');
+      timeDiv.className = 'time-stamp';
+      timeDiv.textContent = timeString;
+      msgDiv.appendChild(timeDiv);
+
+      const messagesContainer = document.getElementById('messages');
+      messagesContainer.appendChild(msgDiv);
+      messagesContainer.scrollTop = messagesContainer.scrollHeight;
+    }
   </script>
 
 </body>
