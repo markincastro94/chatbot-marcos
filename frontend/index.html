@@ -63,7 +63,7 @@
     }
 
     #chatbot-container {
-      display: none;
+      display: none; /* inicia minimizado */
       position: fixed;
       bottom: 80px;
       right: 20px;
@@ -75,7 +75,6 @@
       overflow: hidden;
       z-index: 999;
       box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
-      display: flex;
       flex-direction: column;
     }
 
@@ -198,7 +197,7 @@
     });
 
     window.onload = function () {
-      const mensagem = "Que legal te ter aqui, vou te falar um pouco sobre mim.\nMas, caso queira saber um pouco mais, me chama no Whatsapp (32) 99159-4902";
+      const mensagem = "Que legal te ter aqui, vou te falar um pouco sobre mim. Mas, caso queira saber um pouco mais, me chama no Whatsapp (32) 99159-4902";
       const hora = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
       addMessage(mensagem, 'gpt-message', false, hora);
     };
