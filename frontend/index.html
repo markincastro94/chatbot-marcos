@@ -47,7 +47,6 @@
       border-radius: 6px;
     }
 
-    /* Botão do chatbot */
     #chatbot-button {
       position: fixed;
       bottom: 20px;
@@ -63,7 +62,6 @@
       box-shadow: 0 4px 8px rgba(0,0,0,0.2);
     }
 
-    /* Janela flutuante do chatbot */
     #chatbot-container {
       display: none;
       position: fixed;
@@ -177,10 +175,10 @@
     <iframe title="Gestão Craque Store" src="https://app.powerbi.com/reportEmbed?reportId=60891c0d-3886-4fe7-887c-35663ce903f9&autoAuth=true&ctid=772154b8-f199-4fa4-b299-c370e9be43df" allowFullScreen="true"></iframe>
   </section>
 
-  <!-- Botão flutuante -->
+  <!-- Botão do chatbot -->
   <button id="chatbot-button">💬 Falar com o Marcos</button>
 
-  <!-- Chatbot -->
+  <!-- Janela flutuante do chatbot -->
   <div id="chatbot-container">
     <div id="messages"></div>
     <div id="input-area">
@@ -223,18 +221,18 @@
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ pergunta: userInput }),
       })
-        .then(res => res.json())
-        .then(data => {
-          if (data.codigo && data.explicacao) {
-            addMessage(`<pre><code>${data.codigo}</code></pre>`, 'gpt-message', true, timeString);
-            addMessage(marked.parse(data.explicacao), 'gpt-message', true, timeString);
-          } else {
-            addMessage(marked.parse(data.resposta), 'gpt-message', true, timeString);
-          }
-        })
-        .catch(() => {
-          addMessage('Erro ao conectar-se ao servidor.', 'gpt-message', false, timeString);
-        });
+      .then(res => res.json())
+      .then(data => {
+        if (data.codigo && data.explicacao) {
+          addMessage(`<pre><code>${data.codigo}</code></pre>`, 'gpt-message', true, timeString);
+          addMessage(marked.parse(data.explicacao), 'gpt-message', true, timeString);
+        } else {
+          addMessage(marked.parse(data.resposta), 'gpt-message', true, timeString);
+        }
+      })
+      .catch(() => {
+        addMessage('Erro ao conectar-se ao servidor.', 'gpt-message', false, timeString);
+      });
     }
 
     function addMessage(message, className, isHTML = false, timeString = '') {
