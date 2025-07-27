@@ -157,12 +157,10 @@
 </head>
 <body>
 
-  <!-- Capa -->
   <header>
     <img src="Capa.png" alt="Capa do Portfólio">
   </header>
 
-  <!-- Dashboard Covid-19 -->
   <section>
     <h2>📊 Dashboard - Covid-19 no Brasil</h2>
     <iframe 
@@ -172,7 +170,6 @@
     </iframe>
   </section>
 
-  <!-- Dashboard Craque Store (corrigido) -->
   <section>
     <h2>🏪 Dashboard - Gestão Craque Store</h2>
     <iframe 
@@ -182,10 +179,8 @@
     </iframe>
   </section>
 
-  <!-- Botão do chatbot -->
   <button id="chatbot-button">📘 Saiba quem é o Marcos</button>
 
-  <!-- Janela flutuante do chatbot -->
   <div id="chatbot-container">
     <div id="messages"></div>
     <div id="input-area">
@@ -223,7 +218,8 @@
       addMessage(userInput, 'user-message', false, timeString);
       userInputEl.value = '';
 
-      fetch('https://vivagpt-backend-service-480232989535.us-central1.run.app/ask', {
+      // *** IMPORTANTE: SUBSTITUA 'https://SUA_URL_DO_CLOUD_RUN_AQUI.run.app' PELA SUA URL REAL DO CLOUD RUN ***
+      fetch('https://SUA_URL_DO_CLOUD_RUN_AQUI.run.app/ask', { // <--- ALERTA: SUBSTITUA ESTA URL!
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ pergunta: userInput }),
