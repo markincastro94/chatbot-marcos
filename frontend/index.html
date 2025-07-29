@@ -163,18 +163,18 @@
 
   <section>
     <h2>📊 Dashboard - Covid-19 no Brasil</h2>
-    <iframe 
-      title="Analise Covid-19 Brasil" 
-      src="https://app.powerbi.com/view?r=eyJrIjoiMDIxNWFmMDgtZWE5Zi00NjEwLWI3ZGEtYWViZWRkMTZkM2Y2IiwidCI6Ijc3MjE1NGI4LWYxOTktNGZhNC1iMjk5LWMzNzBlOWJlNDNkZiJ9" 
+    <iframe  
+      title="Analise Covid-19 Brasil"  
+      src="https://app.powerbi.com/view?r=eyJrIjoiMDIxNWFmMDgtZWE5Zi00NjEwLWI3ZGEtYWViZWRkMTZkM2Y2IiwidCI6Ijc3MjE1NGI4LWYxOTktNGZhNC1iMjk5LWMzNzBlOWJlNDNkZiJ9"  
       allowFullScreen="true">
     </iframe>
   </section>
 
   <section>
     <h2>🏪 Dashboard - Gestão Craque Store</h2>
-    <iframe 
-      title="Gestão Craque Store" 
-      src="https://app.powerbi.com/view?r=eyJrIjoiZTM4ZWZjNGQtNmNhOC00NWNjLWFhYmItN2YxN2UzYWE1YWMxIiwidCI6Ijc3MjE1NGI4LWYxOTktNGZhNC1iMjk5LWMzNzBlOWJlNDNkZiJ9" 
+    <iframe  
+      title="Gestão Craque Store"  
+      src="https://app.powerbi.com/view?r=eyJrIjoiZTM4ZWZjNGQtNmNhOC00NWNjLWFhYmItN2YxN2UzYWE1YWMxIiwidCI6Ijc3MjE1NGI4LWYxOTktNGZhNC1iMjk5LWMzNzBlOWJlNDNkZiJ9"  
       allowFullScreen="true">
     </iframe>
   </section>
@@ -218,8 +218,8 @@
       addMessage(userInput, 'user-message', false, timeString);
       userInputEl.value = '';
 
-      // *** IMPORTANTE: SUBSTITUA 'https://SUA_URL_DO_CLOUD_RUN_AQUI.run.app' PELA SUA URL REAL DO CLOUD RUN ***
-      fetch('https://SUA_URL_DO_CLOUD_RUN_AQUI.run.app/ask', { // <--- ALERTA: SUBSTITUA ESTA URL!
+      // --- URL CORRIGIDA ---
+      fetch('https://chatbot-marcos-480232989535.southamerica-east1.run.app/ask', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ pergunta: userInput }),
