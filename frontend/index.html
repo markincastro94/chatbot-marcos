@@ -195,6 +195,9 @@
     const sendBtn = document.getElementById('send-btn');
     const userInputEl = document.getElementById('user-input');
 
+    // --- NOVO: Gerar um ID de Sessão Único ---
+    const sessionId = `session-${Date.now()}-${Math.random().toString(36).substring(2, 9)}`;
+
     chatbotButton.addEventListener('click', () => {
       chatbotContainer.style.display = chatbotContainer.style.display === 'flex' ? 'none' : 'flex';
     });
@@ -218,11 +221,14 @@
       addMessage(userInput, 'user-message', false, timeString);
       userInputEl.value = '';
 
-      // --- URL CORRIGIDA ---
       fetch('https://chatbot-marcos-480232989535.southamerica-east1.run.app/ask', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ pergunta: userInput }),
+        // --- ALTERADO: Adicionado o sessionId no corpo da requisição ---
+        body: JSON.stringify({ 
+            pergunta: userInput,
+            session_id: sessionId // Enviando o ID da sessão
+        }),
       })
       .then(res => res.json())
       .then(data => {
